@@ -1,0 +1,413 @@
+{
+  "stats": {
+    "suites": 9,
+    "tests": 9,
+    "passes": 9,
+    "pending": 0,
+    "failures": 0,
+    "start": "2019-07-05T03:12:56.297Z",
+    "end": "2019-07-05T03:12:56.329Z",
+    "duration": 32,
+    "testsRegistered": 9,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "315a21a7-3350-4d1c-b242-7eb29a446dec",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "0cbf6f4c-15d4-45ce-b6df-6505a439175e",
+          "title": "Expected facts",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.10.fact.ts",
+          "file": "/test/test.10.fact.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "must be derived",
+              "fullTitle": "Expected facts must be derived",
+              "timedOut": false,
+              "duration": 16,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const fact = new fact_1.default({\n    dataType: \"string\",\n    rule: {\n        name: \"LastName\",\n        statedAs: `const d=[];d.forEach(function(dd) {console.log(dd + PickingUpThisVar);\n    });console.log(VarAsArg);console.log(Parameter1Var + Parameter2Var); \n    UndefinedVarAssignment = 888; const x = 123;let xx = 123;\n    VarOfObject.Name + ' ' + VarOfObject.LastName.length + ';' + VarConstant + oop();\n    function s (x) {const a = x;VarInFunction=44}theResultIs(1234);`\n    }\n});\nchai_1.expect(fact.rule && fact.rule.expectedFacts().toString()).to.equal(`Parameter1Var,Parameter2Var,PickingUpThisVar,UndefinedVarAssignment,VarAsArg,VarConstant,VarInFunction,VarOfObject,oop`);\nconst sit = new aggregate_1.default(undefined, {\n    \"id\": 1001961417934,\n    \"name\": \"Names\",\n    \"version\": { major: 1, minor: 0, patch: 0 },\n    \"facts\": [\n        {\n            dataType: \"string\",\n            \"path\": \"Person.FullName\",\n            \"rule\": {\n                \"id\": 1001258227052,\n                \"name\": \"FullName\",\n                \"description\": \"Full name of a person\",\n                \"title\": \"Full name\",\n                \"statedAs\": \"FirstName + \\\" \\\" + LastName\"\n            }\n        },\n        {\n            dataType: \"string\",\n            \"path\": \"Mirror.FullName\",\n            \"rule\": {\n                \"id\": 1001661904664,\n                \"name\": \"FullNameReverse\",\n                \"description\": \"Full Name Reversed\",\n                \"title\": \"Reverse Fullname\",\n                \"statedAs\": \"LastName + \\\" \\\" + FirstName\"\n            }\n        }\n    ],\n    \"description\": \"Names collection\"\n});\nconst engine = new engine_1.RulesEngine(sit.getRules(), {\n    FirstName: \"Uncle\",\n    LastName: \"Bob\"\n}, \"test\", \"1.0\");",
+              "err": {},
+              "uuid": "03eb169a-b763-4e00-8b30-968455f3f45a",
+              "parentUUID": "0cbf6f4c-15d4-45ce-b6df-6505a439175e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "03eb169a-b763-4e00-8b30-968455f3f45a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 16,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "f75f9538-aa17-4d12-a832-536a219f5d5f",
+          "title": "When a fact has a definition",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.10.fact.ts",
+          "file": "/test/test.10.fact.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "isn't expected",
+              "fullTitle": "When a fact has a definition isn't expected",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const fact = new fact_1.default({\n    dataType: \"string\",\n    rule: {\n        name: \"LastName\",\n        statedAs: `123`\n    }\n});\nchai_1.expect(fact.rule && fact.rule.expectedFacts().length).to.equal(0);",
+              "err": {},
+              "uuid": "50a2014d-69f7-43eb-a2fc-4cb3f767b7c5",
+              "parentUUID": "f75f9538-aa17-4d12-a832-536a219f5d5f",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "50a2014d-69f7-43eb-a2fc-4cb3f767b7c5"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "7e3aca56-0f01-4cff-b738-60cca46b96ca",
+          "title": "When a fact requires a fact in the definition",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.10.fact.ts",
+          "file": "/test/test.10.fact.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "is expected to have 1 fact",
+              "fullTitle": "When a fact requires a fact in the definition is expected to have 1 fact",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const fact = new fact_1.default({\n    dataType: \"string\",\n    rule: {\n        name: \"AgeTitle\",\n        statedAs: `Age + \"years old\"`\n    }\n});\nchai_1.expect(fact.rule && fact.rule.expectedFacts().length).to.equal(1);\nchai_1.expect(fact.rule && fact.rule.expectedFacts()[0]).to.equal(\"Age\");",
+              "err": {},
+              "uuid": "da73f96d-9f3b-410e-8f79-2c7a2eaa0b73",
+              "parentUUID": "7e3aca56-0f01-4cff-b738-60cca46b96ca",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "da73f96d-9f3b-410e-8f79-2c7a2eaa0b73"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "7a1ddca4-5425-42c4-851b-6045c96c3bf6",
+          "title": "The generated rule",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.10.fact.ts",
+          "file": "/test/test.10.fact.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should return the result",
+              "fullTitle": "The generated rule should return the result",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const fact = new fact_1.default({\n    dataType: \"string\",\n    rule: {\n        name: \"Person.Name\",\n        statedAs: `\"Hermanus\"`\n    }\n});\nchai_1.expect(fact.rule && fact.rule.getRule()).to.equal(`theResultIs(\"Hermanus\");`);",
+              "err": {},
+              "uuid": "6ce83185-cd7b-48fd-a5b3-45907456bf82",
+              "parentUUID": "7a1ddca4-5425-42c4-851b-6045c96c3bf6",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "6ce83185-cd7b-48fd-a5b3-45907456bf82"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "9caa25f0-d9da-4536-8875-377ebe3a6e9d",
+          "title": "Check Schema MD5 Version",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.20.decision-object.ts",
+          "file": "/test/test.20.decision-object.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should return a valid MD5 hex",
+              "fullTitle": "Check Schema MD5 Version should return a valid MD5 hex",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const decisionObject = new aggregate_1.default(undefined, {\n    name: \"Rules\",\n    version: { major: 1, minor: 0, patch: 0 },\n    decisionObjectType: \"RuleSet\",\n    facts: [\n        {\n            dataType: \"string\",\n            rule: {\n                name: \"FullName\",\n                statedAs: `FirstName + \" \" + LastName`\n            }\n        }\n    ]\n});\nchai_1.expect(decisionObject.schemaVersion().toString())\n    .to\n    .equal(`4335e36b8f49bc0d2b17e5cdc46821d6`);\ndecisionObject.facts[0].path = \"Changed\";\nchai_1.expect(decisionObject.schemaVersion().toString())\n    .to\n    .not\n    .equal(`ce75249a4b0cddbc4a7ab8a3864b1314`);",
+              "err": {},
+              "uuid": "5e01d99c-5c40-4981-aeba-bffe3c5ad546",
+              "parentUUID": "9caa25f0-d9da-4536-8875-377ebe3a6e9d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "5e01d99c-5c40-4981-aeba-bffe3c5ad546"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "6a592900-e3dc-4802-921b-81e3284c60dd",
+          "title": "Implicit Facts",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.20.decision-object.ts",
+          "file": "/test/test.20.decision-object.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should be stated as expected and missing",
+              "fullTitle": "Implicit Facts should be stated as expected and missing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const aggregate = new aggregate_1.default(undefined, {\n    name: \"Rules\",\n    version: { major: 1, minor: 0, patch: 0 },\n    decisionObjectType: \"RuleSet\",\n    facts: [\n        {\n            dataType: \"string\",\n            rule: {\n                name: \"FullName\",\n                statedAs: `FirstName + \" \" + LastName`\n            }\n        }\n    ]\n});\nchai_1.expect(JSON.stringify(aggregate.missingExpectedFacts()))\n    .to\n    .equal(`[{\"name\":\"FirstName\",\"expectedBy\":[\"FullName\"]},{\"name\":\"LastName\",\"expectedBy\":[\"FullName\"]}]`);\nif (aggregate.facts[0] && aggregate.facts[0].pathMapping) {\n    aggregate.facts[0].pathMapping.push({\n        replaceName: \"FirstName\",\n        withPath: \"firstname\"\n    });\n}\nchai_1.expect(JSON.stringify(aggregate.missingExpectedFacts()))\n    .to\n    .equal(`[{\"name\":\"firstname\",\"expectedBy\":[\"FullName\"]},{\"name\":\"LastName\",\"expectedBy\":[\"FullName\"]}]`);",
+              "err": {},
+              "uuid": "9f82e5eb-8eea-47b2-b097-9aef2409140a",
+              "parentUUID": "6a592900-e3dc-4802-921b-81e3284c60dd",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "9f82e5eb-8eea-47b2-b097-9aef2409140a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "704d3d37-b02d-44c6-bddd-215e08580cb5",
+          "title": "Sample Json",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.20.decision-object.ts",
+          "file": "/test/test.20.decision-object.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should be stated as expected and missing",
+              "fullTitle": "Sample Json should be stated as expected and missing",
+              "timedOut": false,
+              "duration": 4,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const decisionObject = new aggregate_1.default(undefined, {\n    name: \"Rules\",\n    version: { major: 1, minor: 0, patch: 0 },\n    decisionObjectType: \"RuleSet\",\n    facts: [\n        {\n            dataType: \"string\",\n            rule: {\n                name: \"LastName\",\n                sampleValue: \"InAction\"\n            }\n        },\n        {\n            dataType: \"string\",\n            path: \"MiddleName\"\n        },\n        {\n            dataType: \"string\",\n            rule: {\n                name: \"FullName\",\n                statedAs: `FirstName + \" \" + LastName`\n            },\n            pathMapping: [{\n                    replaceName: \"LastName\",\n                    withPath: \"lastname\"\n                }]\n        }\n    ]\n});\nconst x = new aggregate_1.default(undefined, {\n    \"id\": 1001577399249,\n    \"name\": \"Birthday\",\n    \"version\": { major: 1, minor: 0, patch: 0 },\n    \"facts\": [\n        {\n            \"dataType\": \"string\",\n            rule: {\n                \"id\": 1001808803078,\n                \"name\": \"StringDate\",\n                \"description\": \"Takes date and outputs a string formatted date\",\n                \"statedAs\": \"theResultIs(new Date(DateTime).toLocaleString())\",\n                \"dataType\": \"string\"\n            },\n            \"pathMapping\": [\n                {\n                    \"withPath\": \"Date\",\n                    \"replaceName\": \"Date\"\n                },\n                {\n                    \"withPath\": \"DateTime\",\n                    \"replaceName\": \"DateTime\"\n                }\n            ]\n        },\n        {\n            \"dataType\": \"string\",\n            \"path\": \"DateTime\",\n            \"pathMapping\": []\n        }\n    ],\n    \"description\": \"Birthday\"\n});\nconsole.log(x.sampleJson());\nconsole.log(x.getRules());\nchai_1.expect(decisionObject.sampleJson().FirstName)\n    .to\n    .equal(`missing`);\nchai_1.expect(decisionObject.sampleJson().LastName)\n    .to\n    .equal(`InAction`);\ndecisionObject.facts[0].path = \"lastname\";\nchai_1.expect(decisionObject.sampleJson().lastname)\n    .to\n    .equal(`InAction`);",
+              "err": {},
+              "uuid": "3a0220ab-79d5-4047-8d1c-3996039f6ca5",
+              "parentUUID": "704d3d37-b02d-44c6-bddd-215e08580cb5",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "3a0220ab-79d5-4047-8d1c-3996039f6ca5"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 4,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "72c04ffc-5a82-422b-ad74-2bc91efc65ed",
+          "title": "Implicit Facts",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.20.decision-object.ts",
+          "file": "/test/test.20.decision-object.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should be stated as expected and missing",
+              "fullTitle": "Implicit Facts should be stated as expected and missing",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const aggregate = new aggregate_1.default(undefined, {\n    name: \"Rules\",\n    version: { major: 1, minor: 0, patch: 0 },\n    decisionObjectType: \"RuleSet\",\n    facts: [\n        {\n            dataType: \"string\",\n            rule: {\n                name: \"FullName\",\n                statedAs: `FirstName + space + LastName`\n            }\n        }\n    ]\n});\nconst engine = new engine_1.RulesEngine(aggregate.getRules(), {\n    FirstName: \"Uncle\",\n    LastName: \"Bob\"\n}, \"test\", \"1.0\");\nconst result = engine.run({ withStats: false });\nchai_1.expect(result.FullName).to.equal(\"Uncle Bob\");",
+              "err": {},
+              "uuid": "81002fa0-7a5b-4d74-adb0-482700078fea",
+              "parentUUID": "72c04ffc-5a82-422b-ad74-2bc91efc65ed",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "81002fa0-7a5b-4d74-adb0-482700078fea"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "65f08daa-b629-4109-bdcb-92760ce94aa9",
+          "title": "Path Mapping from BOM",
+          "fullFile": "/Users/hgeldenhuys/Documents/GitHub/omni.engine/test/test.20.decision-object.ts",
+          "file": "/test/test.20.decision-object.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should pick up facts from paths and save result in a path",
+              "fullTitle": "Path Mapping from BOM should pick up facts from paths and save result in a path",
+              "timedOut": false,
+              "duration": 2,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "let aggregate = new aggregate_1.default(undefined, {\n    name: \"Rules\",\n    version: { major: 2, minor: 0, patch: 0 },\n    decisionObjectType: \"RuleSet\",\n    facts: [\n        {\n            dataType: \"string\",\n            rule: {\n                name: \"FullName\",\n                statedAs: `FirstName + space + LastName`\n            },\n            pathMapping: [{\n                    replaceName: \"LastName\",\n                    withPath: \"family.name\"\n                }],\n            path: \"results.fullname\"\n        },\n        {\n            dataType: \"string\",\n            rule: {\n                name: \"FullName2\",\n                statedAs: `\"My full name is: \" + FullName`\n            },\n            pathMapping: [{\n                    replaceName: \"FullName\",\n                    withPath: \"results.fullname\"\n                }],\n            path: \"results.fullname2\"\n        }\n    ]\n});\nconst engine = new engine_1.RulesEngine(aggregate.getRules(), {\n    FirstName: \"Uncle\",\n    family: {\n        name: \"Bob\"\n    }\n}, \"test\", \"2.0\");\nconst result = engine.run({ withStats: true });\nchai_1.expect(result.results.fullname).to.equal(\"Uncle Bob\");",
+              "err": {},
+              "uuid": "32255a8f-d763-4576-aec8-0e5931f48d99",
+              "parentUUID": "65f08daa-b629-4109-bdcb-92760ce94aa9",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "32255a8f-d763-4576-aec8-0e5931f48d99"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "6.1.4"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "index",
+        "saveHtml": true,
+        "saveJson": true,
+        "useInlineDiffs": false
+      },
+      "version": "4.0.0"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "public/test-results",
+        "reportFilename": "index"
+      },
+      "version": "4.0.0"
+    }
+  }
+}

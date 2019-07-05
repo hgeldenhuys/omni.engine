@@ -1,0 +1,39 @@
+{
+  "name": "omni.engine",
+  "version": "0.0.1",
+  "description": "OmniRules Engine",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "mocha -r ts-node/register test/test.*.ts --reporter mochawesome --reporter-options reportDir=public/test-results,reportFilename=index",
+    "publish npm": "npm --no-git-tag-version version patch; cd dist; npm publish",
+    "build": "tsc",
+    "cleanup": "rm -Rf dist; mkdir dist; cd dist; ln -s ../package.json",
+    "factory": "ts-node omni/factory/index.ts"
+  },
+  "keywords": [],
+  "author": "Herman Geldenhuys",
+  "license": "Agileworks Community",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hgeldenhuys/omni.engine"
+  },
+  "homepage": "https://www.agileworks.co.za/agileworks-community-license",
+  "dependencies": {
+    "typescript": "^3.5.1",
+    "typescript-parser": "^2.6.1",
+    "uglify-es": "^3.3.9",
+    "omni.models": "^0.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4",
+    "mochawesome": "^4.0.0",
+    "@types/chai": "^4.1.7",
+    "@types/expect": "^1.20.4",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
+    "nyc": "^14.1.1",
+    "ts-mocha": "^6.0.0",
+    "ts-node": "^8.3.0"
+  }
+}
