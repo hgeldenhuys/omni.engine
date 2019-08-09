@@ -8,7 +8,6 @@
 * */
 
 import {
-    addValueToJsonPath,
     assert,
     assertValueForPath,
     findUsedBomVariablesInCode,
@@ -18,6 +17,8 @@ import {
 import Version from "omni.models/model/version";
 import Aggregate from "omni.models/model/aggregate";
 import {RuleBehaviour} from "omni.interfaces/types";
+import { RuleStructureInterface } from "omni.interfaces";
+const uuidv4 = require('uuid/v4');
 
 const registry: {[name: string]: {[version: string]: RulesEngine}} = {};
 
@@ -96,18 +97,74 @@ export const jlog = (obj: any) => {
 * The GoodStuff
 * */
 
+function addValueToJsonPath(json: any, path: string, defaultValue: any, rootName?: string) {
+    if (path === "ApplicantEmailValidation[]") {
+        console.log(JSON.stringify(json), path);
+    }
+    const root = json;
+    path = path.replace(/\[\]/g, ".?");
+    const paths = rootName ? getPath(`${rootName}.${path}`) : getPath(`${path}`);
+    let parentNode: any = {};
+    let child = "";
+    paths.forEach((path) => {
+        if (path !== "?") {
+            parentNode = json;
+            try {
+                if (json[path] === undefined) {
+                    json[path] = {};
+                }
+            } catch (e) {
+                console.error(`Failed to add path in ${paths}: ${JSON.stringify(root, undefined, 2)}`);
+                throw e;
+            }
+            json = json[path];
+            child = path;
+        } else {
+            if (parentNode[child][0] === undefined) {
+                parentNode[child] = [];
+            }
+            json = parentNode[child];
+            parentNode = json;
+            child = json.length;
+        }
+    });
+    if (defaultValue !== undefined) {
+        if (Array.isArray(parentNode) && (parentNode.indexOf(defaultValue) === -1)) {
+            parentNode.push(defaultValue);
+        } else if (!Array.isArray(parentNode)) {
+            parentNode[child] = defaultValue;
+        }
+
+        if (child === "?") {
+            parentNode[child] = undefined;
+        }
+    }
+    else {
+        delete parentNode[child];
+    }
+    return root;
+}
+
 export class RuleInstance {
     public variables: string[] = [];
     public usedVariables: string[] = [];
     public valid = false;
     public usedValues: {[key: string]: any} = {};
     public path: {[key: string]: string[]} = {};
+    public enumerations?: string[];
+    public id: string = uuidv4();
     public execute(rule: RuleInstance, engine: RulesEngine): RuleInstance | undefined {
         if (rule.behaviour === "Never")  {
             this.execute = (rule: RuleInstance, engine: RulesEngine): RuleInstance | undefined => {return undefined; };
         } else {
             let result;
             const theResultIs = (value: any) => {
+                if (rule.enumerations && (value !== undefined)) {
+                    assert(
+                        rule.enumerations.indexOf(value) > -1,
+                        `Invalid value for enumeration on ${rule.name}}`,
+                        "ENUM-01");
+                }
                 result = value;
                 return value;
             };
@@ -115,7 +172,8 @@ export class RuleInstance {
             // Inject some fancy stuff
             const space = " ", commaSpace = ", ", comma = ",";
             const fs =
-                `fn=function(o,r){try{let bom=r.bomRoot;${this.code};if(result===undefined){return;}let e=r.bomRoot,n=r.bomRoot,s=o.name;o.name.split(".").forEach(function(o){e[o]===undefined?(e[o]={}):e[o],n=e,s=o,e=e[o]}),n[s]=result}catch(e){console.error("Error in "+o.name+"; Valid="+o.valid+"; Error:"+e.message+" "+e.stack+"}"),console.error("     "+o.usedVariables+": "+JSON.stringify(o.usedValues)),console.error("     "+JSON.stringify(r.bomRoot)),console.error("     Code: "+o.code),r.bomRoot.error=e}return o};`;
+                // OLD FN `fn=function(o,r){try{let bom=r.bomRoot;${this.code};if(result===undefined){return;}let e=r.bomRoot,n=r.bomRoot,s=o.name;o.name.split(".").forEach(function(o){e[o]===undefined?(e[o]={}):e[o],n=e,s=o,e=e[o]}),n[s]=result}catch(e){console.error("Error in "+o.name+"; Valid="+o.valid+"; Error:"+e.message+" "+e.stack+"}"),console.error("     "+o.usedVariables+": "+JSON.stringify(o.usedValues)),console.error("     "+JSON.stringify(r.bomRoot)),console.error("     Code: "+o.code),r.bomRoot.error=e}return o};`;
+                `fn=function(rule,r){try{let bom=r.bomRoot;${this.code};if(result===undefined){return;}let e=r.bomRoot,n=r.bomRoot,s=rule.name;addValueToJsonPath(e, 'bom.'+s, result)}catch(e){console.error("Error in "+rule.name+"; Valid="+rule.valid+"; Error:"+e.message+" "+e.stack+"}"),console.error("     "+rule.usedVariables+": "+JSON.stringify(rule.usedValues)),console.error("     "+JSON.stringify(r.bomRoot)),console.error("     Code: "+rule.code),r.bomRoot.error=e}return rule};`;
             let fn;
             fn = (rule: RuleInstance, engine: RulesEngine): RuleInstance | undefined => {
                 return undefined;
@@ -126,12 +184,14 @@ export class RuleInstance {
             return result;
         }
     }
-    public constructor(public name: string, public code: string, public bom: {}, public behaviour: RuleBehaviour = "Normal") {
+    public constructor(public name: string, public code: string, public bom: {}, enumerations?: string[], public behaviour?: RuleBehaviour, public ruleCode?: string) {
+        this.behaviour = behaviour || "Normal";
         this.code = code;
         this.variables = findUsedBomVariablesInCode(code, "bom");
         this.variables.forEach((variable: string) => {
             this.path[variable] = getPath(variable);
         });
+        this.enumerations = enumerations;
     }
     public calculate(): RuleInstance {
         this.valid = this.valid || (this.variables.length === 0);
@@ -149,14 +209,6 @@ export class RuleInstance {
     }
 }
 
-export interface IRuleStructure {
-    name: string;
-    code: string;
-    behaviour?: RuleBehaviour;
-    absolute?: boolean;
-    variables?: string[];
-}
-
 export interface IRunConfiguration {
     withStats?: boolean;
 }
@@ -164,13 +216,12 @@ export interface IRunConfiguration {
 export class RulesEngine {
     public usedRules: RuleInstance[] = [];
     public usedRuleNames: string[] = [];
+    public usedRuleIds: string[] = [];
     public iterations = 0;
     public maxIterations = 100;
     public rules: RuleInstance[] = [];
-    public placeBackInQueue = false;
-    public getEngine = getEngine;
     constructor(
-        public inputRules: IRuleStructure[],
+        public inputRules: RuleStructureInterface[],
         public bomRoot: any,
         public name?: string,
         public version?: string,
@@ -180,7 +231,7 @@ export class RulesEngine {
         this.runInputValidation();
 
         inputRules.forEach((rule) => {
-            this.rules.push(new RuleInstance(rule.name, rule.code, bomRoot, rule.behaviour));
+            this.rules.push(new RuleInstance(rule.name, rule.code, bomRoot, rule.enumerations, rule.behaviour, rule.ruleCode));
         });
         this.calculate();
     }
@@ -195,11 +246,13 @@ export class RulesEngine {
         this.bomRoot = bom;
         this.usedRules = [];
         this.usedRuleNames = [];
+        this.usedRuleIds = [];
         this.rules.forEach((rule) => {
             rule.valid = false;
             rule.bom = bom;
             if ((rule.valid !== rule.calculate().valid) && (rule.valid)) {
-                if (this.usedRuleNames.indexOf(rule.name) === -1) {
+                if (this.usedRuleIds.indexOf(rule.id) === -1) {
+                    this.usedRuleIds.push(rule.id);
                     this.usedRules.push(rule);
                     this.usedRuleNames.push(rule.name);
                 }
@@ -207,15 +260,13 @@ export class RulesEngine {
         });
         return this;
     }
-    public instance(bom: {}): RulesEngine {
-        return new RulesEngine(this.inputRules, bom);
-    }
     public calculate() {
         this.rules.forEach((rule) => {
             if ((rule.valid !== rule.calculate().valid) && (rule.valid)) {
-                if (this.usedRuleNames.indexOf(rule.name) === -1) {
+                if (this.usedRuleIds.indexOf(rule.id) === -1) {
                     this.usedRules.push(rule);
                     this.usedRuleNames.push(rule.name);
+                    this.usedRuleIds.push(rule.id);
                 }
             }
         });
@@ -277,38 +328,5 @@ export class RulesEngine {
         });
         delete this.bomRoot._conditions;
         return this.bomRoot;
-    }
-    public mapRun(bomArray: {}[], path?: string, configuration?: IRunConfiguration) {
-        const result: any = [];
-        const paths = (path && getPath(path));
-        bomArray.forEach((bom) => {
-            const newBom = this.withBom(bom).run(configuration);
-            if (!paths) {
-                result.push(newBom);
-            } else {
-                result.push(getValueForPath(newBom, paths));
-            }
-        });
-        return result;
-    }
-    public filterRun(bomArray: {}[], expression: string, path?: string, configuration?: IRunConfiguration) {
-        const result: any[] = [];
-        const paths = path && getPath(path);
-        // Test if eval has valid expression
-        {
-            const bom = {};
-            eval(expression);
-        }
-        bomArray.forEach((bomInput) => {
-            const bom: any = this.withBom(bomInput).run(configuration);
-            if (eval(expression)) {
-                if (!paths) {
-                    result.push(bom);
-                } else {
-                    result.push(getValueForPath(bom, paths));
-                }
-            }
-        });
-        return result;
     }
 }

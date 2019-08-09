@@ -1,6 +1,6 @@
 {
   "name": "omni.engine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "OmniRules Engine",
   "main": "index.js",
   "types": "index.d.ts",
@@ -20,10 +20,14 @@
   },
   "homepage": "https://www.agileworks.co.za/agileworks-community-license",
   "dependencies": {
+    "@types/uuid": "^3.4.5",
+    "omni.interfaces": "0.0.17",
+    "omni.models": "0.0.22",
     "typescript": "^3.5.1",
     "typescript-parser": "^2.6.1",
     "uglify-es": "^3.3.9",
-    "omni.models": "^0.0.2"
+    "uuid": "^3.3.2",
+    "uuid4": "^1.1.4"
   },
   "devDependencies": {
     "mocha": "^6.1.4",

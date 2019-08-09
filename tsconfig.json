@@ -15,7 +15,8 @@
         "noImplicitAny": true,
         "strictPropertyInitialization": true,
         "outDir": "dist",
-        "declaration": true
+        "declaration": true,
+        "resolveJsonModule": true
     },
     "exclude": [
         "node_modules"

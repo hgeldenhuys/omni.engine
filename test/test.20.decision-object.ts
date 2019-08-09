@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import {RulesEngine} from "../omni/engine";
 import Aggregate from "omni.models/model/aggregate";
+import {debtReviewType} from "./debt-review-type";
 
 describe(`Check Schema MD5 Version`, () => {
     it(`should return a valid MD5 hex`, () => {
@@ -219,5 +220,44 @@ describe(`Path Mapping from BOM`, () => {
         const result = engine.run({withStats: true});
 
         expect(result.results.fullname).to.equal("Uncle Bob");
+    });
+});
+
+
+describe(`Applicant and Spouse Email`, () => {
+    it(`should be invalid if`, () => {
+        const aggregate = new Aggregate(undefined, debtReviewType);
+        // console.log(aggregate.missingExpectedFacts());
+        console.log(aggregate.getRules());
+        // console.log(aggregate.sampleJson());
+        const engine = new RulesEngine(
+            aggregate.getRules(),
+            {
+                DebtReviewType: "ApplicantOnly",
+                ApplicantEmail: 'jack@black.com',
+                SpouseEmail: null
+            },
+            "test",
+            "1.0"
+        );
+
+        let result = engine.run({withStats: false});
+        console.log("=== Invalid Case");
+        // console.log(result);
+        console.table(result);
+        expect(result.valid).to.equal(true); // DebtReview Type = ❌
+
+        result = engine
+            .withBom({
+                DebtReviewType: "ApplicantAndSpouse",
+                ApplicantEmail: 'jack@black.com',
+                SpouseEmail: null
+            })
+            .run();
+
+        console.log("=== Valid Case");
+        console.table(result);
+        console.log(result);
+        expect(result.valid).to.equal(false); // DebtReview Type = ✅
     });
 });
